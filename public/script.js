@@ -36,6 +36,8 @@ var snapshotCanvas = document.getElementById('snapshot');
 
 captureButton.addEventListener('click', function() {
   var context = snapshot.getContext('2d');
+  context.drawImage(video, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
+
   const requestData = {
     image: document.getElementById("snapshot").toDataURL("image/png")
   }
@@ -51,8 +53,6 @@ captureButton.addEventListener('click', function() {
     console.log(response.json())
     return response
   })
-
-  context.drawImage(video, 0, 0, snapshotCanvas.width, snapshotCanvas.height);
 });
 
 

@@ -110,16 +110,18 @@ const mintNFT = async (buffer) => {
     console.log(`NFT Minted! Check it out at: https://goerli.etherscan.io/tx/${nftTxn.hash}`)
 }
 
-stream = fs.readFile('./stream.txt', 'utf8', function(err, data) {
-    if (err) throw err;
-    console.log('OK: ' + filename);
-    console.log(data)
-  });
+exports.mintNFT = mintNFT
+
+// stream = fs.readFile('./stream.txt', 'utf8', function(err, data) {
+//     if (err) throw err;
+//     console.log('OK: ' + filename);
+//     console.log(data)
+//   });
 
 
-mintNFT(stream)
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+// mintNFT(stream)
+//     .then(() => process.exit(0))
+//     .catch((error) => {
+//         console.error(error);
+//         process.exit(1);
+//     });

@@ -3,81 +3,31 @@ require('dotenv').config();
 const axios = require('axios')
 const FormData = require('form-data')
 const fs = require('fs')
-const JWT = process.env.PINATA_JWT
+const { NFTStorage } = require('nft.storage')
+const API_KEY = process.env.NFTSTORAGE_KEY;
 
-const pinFileToIPFS = async (fileName, imgPath) => {
-    const formData = new FormData();
-    const src = imgPath;
-    
-    const file = fs.createReadStream(src)
-    formData.append('file', file)
-    
-    const metadata = JSON.stringify({
-      name: fileName,
-    });
-    formData.append('pinataMetadata', metadata);
-    
-    const options = JSON.stringify({
-      cidVersion: 0,
-    })
-    formData.append('pinataOptions', options);
-
-    try{
-      const res = await axios.post("https://api.pinata.cloud/pinning/pinFileToIPFS", formData, {
-        maxBodyLength: "Infinity",
-        headers: {
-          'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
-          Authorization: 'Bearer ' + JWT
-        }
-      });
-    //   console.log(res.data);
-      return res.data
-    } catch (error) {
-      console.log(error);
-    }
+async function getExampleImage() {
+  const imageOriginUrl = "./nyanCat.png"
+  const r = await fetch(imageOriginUrl)
+  if (!r.ok) {
+    throw new Error(`error fetching image: [${r.statusCode}]: ${r.status}`)
+  }
+  return r.blob()
 }
 
-const pinJSONToIPFS = async (imgHash) => {
-    var axios = require('axios');
-    var data = JSON.stringify({
-    "pinataOptions": {
-        "cidVersion": 1
-    },
-    "pinataMetadata": {
-        "name": "OOPNFTMetadata001",
-    },
-    "pinataContent": {
-        "description": "OOP Project NFT 001",
-        "image": "https://gateway.pinata.cloud/ipfs/" + imgHash,
-        "name": "OOPNFT001",
-    }
-    });
+async function storeNFTInfo(blob) {
+  const image = blob
+  const nft = {
+    image, // use image Blob as `image` field
+    name: "Test NFT",
+    description: "The metaverse is here. Where is it all being stored?",
+  }
 
-    var config = {
-        method: 'post',
-        url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
-        headers: { 
-            'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + JWT
-        },
-        data : data
-    };
+  const client = new NFTStorage({ token: API_KEY })
+  const metadata = await client.store(nft)
 
-    const res = await axios(config);
-    return res.data
+  console.log('NFT data stored!')
+  console.log('Metadata URI: ', metadata.url)
 }
 
-const main = async () => {
-    // console.log(JWT)
-    res = await pinFileToIPFS('nyanCat', './nyanCat.png')
-    imgIpfsHash = res.IpfsHash
-    res = await pinJSONToIPFS(imgIpfsHash)
-    metadataIpfsHash = res.IpfsHash
-    
-
-    // console.log(res)
-}
-
-main();
-
-
+exports.storeNFTInfo = storeNFTInfo;
