@@ -10,3 +10,7 @@ cache
 artifacts
 
 .DS_Store
+
+img/*
+
+Gender-and-Age-Detection/.venv
