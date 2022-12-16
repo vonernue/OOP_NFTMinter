@@ -3,6 +3,7 @@
 import cv2
 import math
 import argparse
+from connect import * 
 
 
 def highlightFace(net, frame, conf_threshold=0.7):
@@ -27,7 +28,7 @@ def highlightFace(net, frame, conf_threshold=0.7):
                           (0, 255, 0), int(round(frameHeight/150)), 8)
     return frameOpencvDnn, faceBoxes
 
-
+conn, cursor = connectToDB()
 parser = argparse.ArgumentParser()
 parser.add_argument('--image')
 
@@ -76,7 +77,12 @@ for faceBox in faceBoxes:
     agePreds = ageNet.forward()
     age = ageList[agePreds[0].argmax()]
     print(f'Age: {age[1:-1]} years')
-
+    tok = age[1:-1].split('-')
+    average = (int(tok[0]) + int(tok[1])) / 2
+    insert(conn, cursor, average, gender)
+    
     cv2.putText(resultImg, f'{gender}, {age}', (
         faceBox[0], faceBox[1]-10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2, cv2.LINE_AA)
+
+disConnect(conn, cursor)
     # cv2.imshow("Detecting age and gender", resultImg)
