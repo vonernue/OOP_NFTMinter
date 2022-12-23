@@ -49,7 +49,7 @@ app.post("/mint", async function (req, res) {
   var walletAddress = req.body.walletAddress;
   console.log(walletAddress);
 
-  // utils.mintNFT(base64Data);
+  utils.mintNFT(base64Data, walletAddress);
 
 
   // save image to ipfs
