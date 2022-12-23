@@ -29,6 +29,12 @@ app.get("/", function (req, res) {
   });
 });
 
+app.get("/html5-qrcode.js", function (req, res) {
+  res.sendFile(__dirname + "/public/html5-qrcode.js", function (err) {
+    if (err) res.send(404);
+  });
+});
+
 app.get("/script.js", function (req, res) {
   res.sendFile(__dirname + "/public/script.js", function (err) {
     if (err) res.send(404);
@@ -40,7 +46,11 @@ app.post("/mint", async function (req, res) {
   var image = req.body.image;
   image = image.replace('data:', '').replace(/^.+,/, '');
   base64Data = Buffer.from(image, 'base64');
+  var walletAddress = req.body.walletAddress;
+  console.log(walletAddress);
+
   // utils.mintNFT(base64Data);
+
 
   // save image to ipfs
   require("fs").writeFile("./img/out.png", base64Data, 'base64', function (err) {
@@ -62,7 +72,7 @@ app.post("/mint", async function (req, res) {
   });
 
   // console.log(buffer.toString('base64'));
-  res.send("upload");
+  // res.send("upload");
 });
 
 port = process.env.PORT || 3000;

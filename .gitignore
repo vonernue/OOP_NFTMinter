@@ -14,3 +14,4 @@ artifacts
 img/*
 
 Gender-and-Age-Detection/.venv
+__pycache__
