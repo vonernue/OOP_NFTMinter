@@ -42,17 +42,17 @@ captureButton.addEventListener('click', function() {
     image: document.getElementById("snapshot").toDataURL("image/png")
   }
 
-  fetch('/mint', {
-    body: JSON.stringify(requestData),
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    method: 'POST',
-  })
-  .then((response) => {
-    console.log(response.json())
-    return response
-  })
+  // fetch('/mint', {
+  //   body: JSON.stringify(requestData),
+  //   headers: new Headers({
+  //     'Content-Type': 'application/json',
+  //   }),
+  //   method: 'POST',
+  // })
+  // .then((response) => {
+  //   console.log(response.json())
+  //   return response
+  // })
 });
 
 

@@ -92,7 +92,7 @@ const pinJSONToIPFS = async (imgHash) => {
 }
 
 // Call mintNFT function
-const mintNFT = async (buffer) => {
+const mintNFT = async (buffer, recipient) => {
 
     // Upload NFT data to IPFS
     res = await pinFileToIPFS('OOPNFT02', buffer)
@@ -105,9 +105,11 @@ const mintNFT = async (buffer) => {
     // Construct NFT metadata uri
     tokenUri = "https://gateway.pinata.cloud/ipfs/" + metadataIpfsHash
 
-    let nftTxn = await myNftContract.mintNFT(signer.address, tokenUri)
+    let nftTxn = await myNftContract.mintNFT(recipient, tokenUri)
     await nftTxn.wait()
+    tokenId = nftTxn.chainId
     console.log(`NFT Minted! Check it out at: https://goerli.etherscan.io/tx/${nftTxn.hash}`)
+
 }
 
 exports.mintNFT = mintNFT

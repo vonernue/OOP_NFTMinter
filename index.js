@@ -5,7 +5,7 @@ const fs = require('fs');
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var utils = require('./scripts/utils.js');
-var fileToIPFS = require('./scripts/fileToIPFS.js');
+// var fileToIPFS = require('./scripts/fileToIPFS.js');
 
 app = express();
 
