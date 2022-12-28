@@ -10,14 +10,14 @@ def connectToDB():
   password = "oop666"
   sslmode = "require"
 
-  mypkey = paramiko.RSAKey.from_private_key_file('/Users/siang/.ssh/oop.cer')
-  tunnel =  SSHTunnelForwarder(
-          (host, 22),
-          ssh_username = username,
-          ssh_pkey = mypkey,
-          remote_bind_address=('localhost', 5432),
-          local_bind_address=('127.0.0.1', ))
-  tunnel.start()
+  # mypkey = paramiko.RSAKey.from_private_key_file('/Users/siang/.ssh/oop.cer')
+  # tunnel =  SSHTunnelForwarder(
+  #         (host, 22),
+  #         ssh_username = username,
+  #         ssh_pkey = mypkey,
+  #         remote_bind_address=('localhost', 5432),
+  #         local_bind_address=('127.0.0.1', ))
+  # tunnel.start()
 
   conn = psycopg2.connect(dbname = dbname, user = user, password = password, host = 'localhost', port = tunnel.local_bind_port)
   print("Connection established")

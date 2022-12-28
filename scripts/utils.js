@@ -21,7 +21,7 @@ const signer = new ethers.Wallet(privateKey, provider)
 
 // Get contract ABI and address
 const abi = contract.abi
-const contractAddress = '0x95806E5C4Bc3CbaF0bD05FFc740D22E9EdFA2dcE'
+const contractAddress = process.env.CONTRACT_ADDR
 
 // Create a contract instance
 const myNftContract = new ethers.Contract(contractAddress, abi, signer)
@@ -68,12 +68,12 @@ const pinJSONToIPFS = async (imgHash) => {
         "cidVersion": 1
     },
     "pinataMetadata": {
-        "name": "OOPNFTMetadata001",
+        "name": "OOPNFTMetadata",
     },
     "pinataContent": {
-        "description": "OOP Project NFT 002",
+        "description": "OOP Project NFT",
         "image": "https://gateway.pinata.cloud/ipfs/" + imgHash,
-        "name": "OOPNFT001",
+        "name": "OOPNFT",
     }
     });
 
@@ -95,7 +95,7 @@ const pinJSONToIPFS = async (imgHash) => {
 const mintNFT = async (buffer, recipient) => {
 
     // Upload NFT data to IPFS
-    res = await pinFileToIPFS('OOPNFT02', buffer)
+    res = await pinFileToIPFS('OOPNFT', buffer)
     imgIpfsHash = res.IpfsHash
     console.log('Image uploaded to IPFS: ' + imgIpfsHash)
     res = await pinJSONToIPFS(imgIpfsHash)
@@ -109,7 +109,7 @@ const mintNFT = async (buffer, recipient) => {
     await nftTxn.wait()
     tokenId = nftTxn.chainId
     console.log(`NFT Minted! Check it out at: https://goerli.etherscan.io/tx/${nftTxn.hash}`)
-
+    return nftTxn.hash
 }
 
 exports.mintNFT = mintNFT

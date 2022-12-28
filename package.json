@@ -25,7 +25,8 @@
     "nft.storage": "^7.0.0",
     "node-fetch": "^3.2.6",
     "node-webcam": "^0.8.1",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "https": "^1.0.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
